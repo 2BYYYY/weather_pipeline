@@ -1,2 +1,4 @@
 .venv
 .env
+api_requests/__pycache__/
+postgres/
