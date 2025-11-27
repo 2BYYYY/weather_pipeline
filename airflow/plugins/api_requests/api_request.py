@@ -1,25 +1,36 @@
 """
     https://docs.apilayer.com/weatherstack/docs/quickstart-guide?utm_source=DocumentationPage&utm_medium=Referral
 """
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 import os
 import requests
-import argparse
-import json
+# import argparse
+# import json
 
 def fetch_data():
     try:
+        # Use the only for local
+        # load_dotenv()
+
+        # parser = argparse.ArgumentParser()
+        # parser.add_argument("CITY", nargs="+", help="Input the CITY or city name")
+        # args = parser.parse_args()
+
+        # # build the URL
+        # CITY = " ".join(args.CITY)
+        API_KEY = os.getenv("WEATHER_API")
+        WEATHER_URL = "http://api.weatherstack.com/current"
         params = {
             "access_key": API_KEY,
-            "query": COUNTRY
+            "query": "Manila"
         }
-        # Sample url: http://api.weatherstack.com/current?access_key=YOUR_ACCESS_KEY&query=COUNTRY
+        # Sample url: http://api.weatherstack.com/current?access_key=YOUR_ACCESS_KEY&query=CITY
         response = requests.get(WEATHER_URL, params=params)
         json_response = response.json()
-        foramtted_response = json.dumps(json_response, indent=2)
-        return foramtted_response
+        # foramtted_response = json.dumps(json_response, indent=2)
+        return json_response
     except Exception as e:
-        print(f"Error in fetching the data: {e}")
+        print(f"Error in fetching the dataAAAA: {e}")
         raise
 
 def mock_data():
@@ -85,14 +96,4 @@ def mock_data():
     return data
 
 if __name__ == "__main__":
-    load_dotenv()
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("country", nargs="+", help="Input the country or city name")
-    args = parser.parse_args()
-
-    # build the URL
-    COUNTRY = " ".join(args.country)
-    API_KEY = os.getenv("WEATHER_API")
-    WEATHER_URL = "http://api.weatherstack.com/current"
-    print(fetch_data())
+    fetch_data()

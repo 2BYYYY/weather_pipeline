@@ -23,9 +23,12 @@ services:
     environment:
       #Connect to metadata database via the service db (postgres)
       AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@db:5432/airflow_db
+    env_file:
+    - ./airflow/.env
     volumes:
       #Local data <--> Docker airflow data
      - ./airflow/dags:/opt/airflow/dags
+     - ./airflow/plugins:/opt/airflow/plugins
     depends_on:
       - db
     networks:

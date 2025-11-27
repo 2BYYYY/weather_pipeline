@@ -1,4 +1,4 @@
 .venv
 .env
-api_requests/__pycache__/
+airflow/plugins/api_requests/__pycache__/
 postgres/

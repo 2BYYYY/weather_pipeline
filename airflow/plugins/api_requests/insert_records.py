@@ -1,4 +1,4 @@
-from api_request import mock_data
+from api_request import mock_data, fetch_data
 import psycopg2
 
 def connect_to_db():
@@ -7,8 +7,9 @@ def connect_to_db():
             dbname="db",
             user="db_user",
             password="db_password",
-            host="localhost",
-            port=5000
+            # if local: host=localhost port=5000 (follow the docker compose file)
+            host="db",
+            port=5432
         )
         return conn
     except Exception as e:
@@ -66,10 +67,10 @@ def insert_records(conn: object, data: dict):
         print("Data inserted")
     except Exception as e:
         print(f"Data was unsuccessful: {e}")
-        
-if __name__ == "__main__":
+
+def insert_records_main():
     try:
-        data = mock_data()
+        data = fetch_data()
         conn = connect_to_db()
         create_table(conn)
         insert_records(conn, data)
@@ -79,3 +80,9 @@ if __name__ == "__main__":
         if "conn" in locals():
             conn.close()
             print("Database closed")
+
+def test_import_insert():
+    print("imported successful")
+
+if __name__ == "__main__":
+    insert_records_main()
