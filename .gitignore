@@ -2,3 +2,5 @@
 .env
 airflow/plugins/api_requests/__pycache__/
 postgres/
+profiles.yml
+target/

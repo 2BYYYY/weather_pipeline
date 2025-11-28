@@ -1,0 +1,18 @@
+# existing tables or views in your data warehouse that dbt reads from but does not create or modify. It’s the raw data layer used as input for transformations.
+version: 2
+
+# sources (defined tables that needs to be transformed)
+sources:
+  - name: dev
+    database: db
+    tables:
+      - name: raw_weather_data
+        columns:
+          - name: id
+          - name: city
+          - name: temperature
+          - name: weather_descriptions
+          - name: wind_speed
+          - name: time
+          - name: inserted_at
+          - name: utc_offset
