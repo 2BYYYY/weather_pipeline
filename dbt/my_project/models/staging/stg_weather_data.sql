@@ -8,6 +8,13 @@
 WITH source AS (
     SELECT *
     FROM {{source("dev", "raw_weather_data")}}
+),
+
+de_dup AS (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER(PARTITION BY time ORDER BY inserted_at) AS rn
+    FROM source
 )
 
 SELECT 
@@ -18,4 +25,6 @@ SELECT
     wind_speed,
     time AS weather_time_local,
     (inserted_at + (utc_offset || 'hours')::interval) AS inserted_at_local
-FROM source
+FROM de_dup
+WHERE rn = 1
+
