@@ -37,6 +37,9 @@ services:
       #Local data <--> Docker airflow data
      - ./airflow/dags:/opt/airflow/dags
      - ./airflow/plugins:/opt/airflow/plugins
+     - /var/run/docker.sock:/var/run/docker.sock
+    group_add:
+      - '1001'
     #Controls startup order (db first then af) 
     depends_on:
       db:

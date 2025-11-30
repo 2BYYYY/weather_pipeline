@@ -1,34 +1,29 @@
 # https://airflow.apache.org/docs/apache-airflow/stable/core-concepts/dags.html
+# https://airflow.apache.org/docs/apache-airflow-providers-docker/stable/_api/airflow/providers/docker/operators/docker/index.html#airflow.providers.docker.operators.docker.DockerOperator
+# https://docker-py.readthedocs.io/en/stable/containers.html#mounts
 
 from airflow import DAG
 from airflow.providers.docker.operators.docker import DockerOperator
-from airflow.operators.python import PythonOperator
 from datetime import datetime, timedelta
 from docker.types import Mount
-from api_requests.insert_records import insert_records_main
 
 def test():
     print("test complete")
 
 default_args = {
-    'description':'Orchestrate weather data',
+    'description':'Orchestrates the dbt weather data',
     'start_date':datetime(2025, 4, 30),
     'catchup':False,
 }
 
 dag = DAG(
-    dag_id="weather-api-dbt-orchestrator",
+    dag_id="weather-dbt-orchestrator",
     default_args=default_args,
     schedule=timedelta(minutes=6),
 
 )
 
 with dag:
-    task1=PythonOperator(
-        task_id='ingest_data_task',
-        python_callable=insert_records_main
-    )
-    
     task2=DockerOperator(
         task_id='transform_data_task',
         image='ghcr.io/dbt-labs/dbt-postgres:1.9.latest',
@@ -46,5 +41,3 @@ with dag:
         docker_url='unix://var/run/docker.sock',
         auto_remove='success'
     )
-
-    task1 >> task2
