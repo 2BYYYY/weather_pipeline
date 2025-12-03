@@ -13,4 +13,4 @@ GROUP BY
     date(weather_time_local)
 ORDER BY 
     city,
-    date(weather_time_local)
+    date(weather_time_local) DESC
